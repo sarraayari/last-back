@@ -8,7 +8,7 @@ from werkzeug.exceptions import RequestEntityTooLarge
 from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
-CORS(app, origins=["https://63c40eeb035bd35a7c716365--poetic-eclair-198b0c.netlify.app/"])
+CORS(app, origins=["https://icsa2023.netlify.app/"])
 app.config['UPLOAD_DIRECTORY'] = 'C:\\Users\\sarra\\Junior-Project\\server\\uploads'
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 app.config['SECRET_KEY'] = 'b\x85\xc9\x99\xc3\xb1\x81\x86\x96\xf3t\x91\xbb\rQ\xce\x18$\xd5\xa8\x10w$sR'
