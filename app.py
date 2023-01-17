@@ -16,19 +16,19 @@ app.config['CONTENT_TYPE']='Content-Type'
 app.config['CORS_SUPPORTS_CREDENTIALS']= True
 app.config['CORS_RESOURCES']= {r"/manifest.json": {"origins":["*","https://icsa2023.netlify.app", "https://icsa2023-m1ct.onrender.com","https://*.netlify.app"] }}
 
-cors=CORS(app , resources={r"https://icsa2023.netlify.app": {"origins":"/*"}},supports_credentials=True)
+cors=CORS(app , origins=["https://icsa2023.netlify.app"])
 
 client = MongoClient("mongodb+srv://sarra:1234@cluster0.p6dxnn8.mongodb.net/?retryWrites=true&w=majority")
 db = client.get_database('Uploads')
 
 @app.route('/')
-@cross_origin(origin='https://icsa2023.netlify.app', allow_headers=['Content-Type', 'Authorization'])
+#@cross_origin(origin='https://icsa2023.netlify.app', allow_headers=['Content-Type', 'Authorization'])
 def entry_point():
 
     return render_template('home.html')
 
 @app.route('/upload', methods=['POST'])
-@cross_origin(origin='*', allow_headers=['Content-Type', 'Authorization'])
+#@cross_origin(origin='*', allow_headers=['Content-Type', 'Authorization'])
 def upload():
      if request.method == 'POST':
         if (request.files):
@@ -46,7 +46,7 @@ def upload():
                 return ('error no file detected')
 
 @app.route('/Upload', methods=['POST', 'GET'])
-@cross_origin(origin='https://icsa2023.netlify.app', allow_headers=['Content-Type', 'Authorization'])
+#@cross_origin(origin='https://icsa2023.netlify.app', allow_headers=['Content-Type', 'Authorization'])
 def Upload():
     if request.method == 'POST':
         FirstName=request.get_json()['FirstName']
@@ -78,7 +78,7 @@ def Upload():
         return dataJson
 
 @app.route('/download/<path:filename>',methods=['GET'])
-@cross_origin(origin='https://icsa2023.netlify.app', allow_headers=['Content-Type', 'Authorization'])
+#@cross_origin(origin='https://icsa2023.netlify.app', allow_headers=['Content-Type', 'Authorization'])
 def download_file(filename):
     binary_pdf = send_from_directory(directory=app.config['UPLOAD_DIRECTORY'],path=filename)
     response = make_response(binary_pdf)
