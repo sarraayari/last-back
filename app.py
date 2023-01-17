@@ -40,8 +40,8 @@ def add_header(response):
 @app.route('/manifest.json', methods=['GET'])
 @cross_origin(origins='https://icsa2023.netlify.app', allow_headers=['Content-Type', 'Authorization'])
 
-def manifest(response):
-    add_header(response)
+def manifest():
+
     manifest_content = {
   "short_name": "React App",
   "name": "Create React App Sample",
@@ -69,7 +69,7 @@ def manifest(response):
   "background_color": "#ffffff"
 }
 
-    return (manifest_content)
+    return jsonify(manifest_content)
 
 @app.route('/upload', methods=['POST'])
 @cross_origin(origins='https://icsa2023.netlify.app/AbstractSubmission', allow_headers=['Content-Type', 'Authorization'])
@@ -103,7 +103,7 @@ def Upload():
             "LastName": LastName,
             "Email":Email,
             })
-        return (FirstName)
+        return render_template('home.html')
 
     if request.method == 'GET':
         allData = db['Uploads'].find()
