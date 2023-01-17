@@ -1,4 +1,4 @@
-from flask import Flask,send_from_directory,flash,render_template,request
+from flask import Flask,send_from_directory,flash,render_template,request,jsonify
 from pymongo import MongoClient
 from flask_cors import CORS , cross_origin
 import os
@@ -26,6 +26,44 @@ db = client.get_database('Uploads')
 def entry_point():
 
     return render_template('home.html')
+
+@app.after_request
+def add_header(response):
+    response.headers['Access-Control-Allow-Origin'] = '*'
+    response.headers['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE, OPTIONS'
+    response.headers['Access-Control-Allow-Headers'] = 'Content-Type,Authorization'
+    return response
+
+@app.route('/manifest.json')
+def manifest():
+    manifest_content = {
+  "short_name": "React App",
+  "name": "Create React App Sample",
+  "start_url":"./",
+  "icons": [
+    {
+      "src": "favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "logo192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "logo512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "homepage": "https://icsa2023.netlify.app/",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}
+
+    return jsonify(manifest_content)
 
 @app.route('/upload', methods=['POST'])
 #@cross_origin(origin='*', allow_headers=['Content-Type', 'Authorization'])
