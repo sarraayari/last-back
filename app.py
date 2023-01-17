@@ -14,7 +14,7 @@ app.config['SECRET_KEY'] = 'b\x85\xc9\x99\xc3\xb1\x81\x86\x96\xf3t\x91\xbb\rQ\xc
 app.config["MONGO_URI"]="mongodb+srv://sarra:1234@cluster0.p6dxnn8.mongodb.net/?retryWrites=true&w=majority"
 app.config['CONTENT_TYPE']='Content-Type'
 app.config['CORS_SUPPORTS_CREDENTIALS']= True
-app.config['CORS_RESOURCES']= {r"/manifest.json": {"origins":["*","https://icsa2023.netlify.app/", "https://icsa2023-m1ct.onrender.com","https://*.netlify.app"] }}
+#app.config['CORS_RESOURCES']= {r"/manifest.json": {"origins":["*","https://icsa2023.netlify.app/", "https://icsa2023-m1ct.onrender.com","https://*.netlify.app"] }}
 
 cors=CORS(app ,  resources={r"/*": {"origins": "*"}},supports_credentials=True)
 
@@ -22,7 +22,7 @@ client = MongoClient("mongodb+srv://sarra:1234@cluster0.p6dxnn8.mongodb.net/?ret
 db = client.get_database('Uploads')
 
 @app.route('/')
-@cross_origin(origin='https://icsa2023.netlify.app', allow_headers=['Content-Type', 'Authorization'])
+@cross_origin(origin='*', allow_headers=['Content-Type', 'Authorization'])
 def entry_point():
 
     return render_template('home.html')
@@ -30,9 +30,9 @@ def entry_point():
 @app.after_request
 @cross_origin(origin='*', allow_headers=['Content-Type', 'Authorization'])
 def add_header(response):
-    response.headers['Access-Control-Allow-Origin'] = '*'
+    response.headers['Access-Control-Allow-Origin'] = ['*','/*','/download/*']
     response.headers['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE, OPTIONS'
-    response.headers['Access-Control-Allow-Headers'] = 'Content-Type,Authorization'
+    response.headers['Access-Control-Allow-Headers'] = {'access-control-allow-origin': '*'}
     return response
 
 @app.route('/manifest.json', methods=['GET'])
