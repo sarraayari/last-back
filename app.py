@@ -22,7 +22,7 @@ client = MongoClient("mongodb+srv://sarra:1234@cluster0.p6dxnn8.mongodb.net/?ret
 db = client.get_database('Uploads')
 
 @app.route('/')
-#@cross_origin(origin='https://icsa2023.netlify.app', allow_headers=['Content-Type', 'Authorization'])
+@cross_origin(origin='https://icsa2023.netlify.app', allow_headers=['Content-Type', 'Authorization'])
 def entry_point():
 
     return render_template('home.html')
@@ -35,7 +35,7 @@ def add_header(response):
     response.headers['Access-Control-Allow-Headers'] = 'Content-Type,Authorization'
     return response
 
-@app.route('/manifest.json')
+@app.route('/manifest.json', methods=['GET'])
 @cross_origin(origin='*', allow_headers=['Content-Type', 'Authorization'])
 def manifest():
 
@@ -87,7 +87,7 @@ def upload():
                 return ('error no file detected')
 
 @app.route('/Upload', methods=['POST', 'GET'])
-#@cross_origin(origin='https://icsa2023.netlify.app', allow_headers=['Content-Type', 'Authorization'])
+@cross_origin(origin='https://icsa2023.netlify.app', allow_headers=['Content-Type', 'Authorization'])
 def Upload():
     if request.method == 'POST':
         FirstName=request.get_json()['FirstName']
@@ -119,7 +119,7 @@ def Upload():
         return dataJson
 
 @app.route('/download/<path:filename>',methods=['GET'])
-#@cross_origin(origin='https://icsa2023.netlify.app', allow_headers=['Content-Type', 'Authorization'])
+@cross_origin(origin='https://icsa2023.netlify.app', allow_headers=['Content-Type', 'Authorization'])
 def download_file(filename):
     binary_pdf = send_from_directory(directory=app.config['UPLOAD_DIRECTORY'],path=filename)
     response = make_response(binary_pdf)
