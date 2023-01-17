@@ -14,7 +14,7 @@ app.config['SECRET_KEY'] = 'b\x85\xc9\x99\xc3\xb1\x81\x86\x96\xf3t\x91\xbb\rQ\xc
 app.config["MONGO_URI"]="mongodb+srv://sarra:1234@cluster0.p6dxnn8.mongodb.net/?retryWrites=true&w=majority"
 app.config['CONTENT_TYPE']='Content-Type'
 app.config['CORS_SUPPORTS_CREDENTIALS']= True
-#app.config['CORS_RESOURCES']= {r"/manifest.json": {"origins":["*","https://icsa2023.netlify.app/", "https://icsa2023-m1ct.onrender.com","https://*.netlify.app"] }}
+app.config['CORS_RESOURCES']= {r"/manifest.json": {"origins":"*"}}
 
 cors=CORS(app ,resources={r"*": {"origins": 'https://icsa2023.netlify.app/*'}},supports_credentials=True)
 
@@ -28,48 +28,48 @@ def entry_point():
     return render_template('home.html')
 
 @app.after_request
-@cross_origin(origin='*', allow_headers=['Content-Type', 'Authorization'])
+@cross_origin(origin='https://icsa2023.netlify.app/*', allow_headers=['Content-Type', 'Authorization'])
 def add_header(response):
     response.headers['Access-Control-Allow-Origin'] = ['52*']
     response.headers['Access-Control-Allow-Methods'] = 'GET, POST'
     response.headers['Access-Control-Allow-Headers'] = {'access-control-allow-origin': '*'}
-    return response
+    return ('response')
 
     #############################
-@app.after_request
-@app.route('/manifest.json', methods=['GET'])
-@cross_origin(origins='https://icsa2023.netlify.app', allow_headers=['Content-Type', 'Authorization'])
+# @app.after_request
+# @app.route('/manifest.json', methods=['GET'])
+# @cross_origin(origins='*', allow_headers=['Content-Type', 'Authorization'])
 
-def manifest():
+# def manifest():
 
-    manifest_content = {
-  "short_name": "React App",
-  "name": "Create React App Sample",
-  "start_url":"./",
-  "icons": [
-    {
-      "src": "favicon.ico",
-      "sizes": "64x64 32x32 24x24 16x16",
-      "type": "image/x-icon"
-    },
-    {
-      "src": "logo192.png",
-      "type": "image/png",
-      "sizes": "192x192"
-    },
-    {
-      "src": "logo512.png",
-      "type": "image/png",
-      "sizes": "512x512"
-    }
-  ],
-  "homepage": "/index.html",
-  "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
-}
+#     manifest_content = {
+#   "short_name": "React App",
+#   "name": "Create React App Sample",
+#   "start_url":"./",
+#   "icons": [
+#     {
+#       "src": "favicon.ico",
+#       "sizes": "64x64 32x32 24x24 16x16",
+#       "type": "image/x-icon"
+#     },
+#     {
+#       "src": "logo192.png",
+#       "type": "image/png",
+#       "sizes": "192x192"
+#     },
+#     {
+#       "src": "logo512.png",
+#       "type": "image/png",
+#       "sizes": "512x512"
+#     }
+#   ],
+#   "homepage": "/index.html",
+#   "display": "standalone",
+#   "theme_color": "#000000",
+#   "background_color": "#ffffff"
+# }
 
-    return jsonify(manifest_content)
+#     return jsonify(manifest_content)
 
 @app.route('/upload', methods=['POST'])
 @cross_origin(origins='https://icsa2023.netlify.app/AbstractSubmission', allow_headers=['Content-Type', 'Authorization'])
