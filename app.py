@@ -36,7 +36,7 @@ def add_header(response):
     return response
 @app.after_request
 @app.route('/manifest.json', methods=['GET'])
-@cross_origin(origin='*', allow_headers=['Content-Type', 'Authorization'])
+@cross_origin(origin='https://icsa2023.netlify.app/*', allow_headers=['Content-Type', 'Authorization'])
 
 def manifest(response):
     add_header(response)
@@ -61,19 +61,19 @@ def manifest(response):
       "sizes": "512x512"
     }
   ],
-  "homepage": "https://icsa2023.netlify.app/",
+  "homepage": "/index.html",
   "display": "standalone",
   "theme_color": "#000000",
   "background_color": "#ffffff"
 }
 
     return (manifest_content)
-@app.after_request
+
 @app.route('/upload', methods=['POST'])
-@cross_origin(origin='https://icsa2023.netlify.app/*', allow_headers=['Content-Type', 'Authorization'])
+@cross_origin(origin='https://icsa2023.netlify.app/', allow_headers=['Content-Type', 'Authorization'])
 def upload():
     
-     if request.method == 'POST':
+    if request.method == 'POST':
         if (request.files):
             file=request.files['file']
             if file.filename == '':
@@ -100,7 +100,7 @@ def Upload():
             "LastName": LastName,
             "Email":Email,
             })
-        return ('here')
+        return (FirstName)
 
     if request.method == 'GET':
         allData = db['Uploads'].find()
@@ -117,7 +117,6 @@ def Upload():
                 'Email': Email
             }
             dataJson.append(dataDict)
-        print(dataJson)
         return dataJson
 @app.after_request
 @app.route('/download/<path:filename>',methods=['GET'])
