@@ -34,7 +34,7 @@ def add_header(response):
     response.headers['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE, OPTIONS'
     response.headers['Access-Control-Allow-Headers'] = {'access-control-allow-origin': '*'}
     return response
-
+@app.after_request
 @app.route('/manifest.json', methods=['GET'])
 @cross_origin(origin='*', allow_headers=['Content-Type', 'Authorization'])
 
@@ -68,7 +68,7 @@ def manifest(response):
 }
 
     return jsonify(manifest_content)
-
+@app.after_request
 @app.route('/upload', methods=['POST'])
 @cross_origin(origin='https://icsa2023.netlify.app/*', allow_headers=['Content-Type', 'Authorization'])
 def upload():
@@ -86,9 +86,9 @@ def upload():
                     return  'File too large'
             else:
                 return ('error no file detected')
-
+@app.after_request
 @app.route('/Upload', methods=['POST', 'GET'])
-@cross_origin(origin='https://icsa2023.netlify.app', allow_headers=['Content-Type', 'Authorization'])
+@cross_origin(origin='https://icsa2023.netlify.app/*', allow_headers=['Content-Type', 'Authorization'])
 def Upload():
     if request.method == 'POST':
         FirstName=request.get_json()['FirstName']
@@ -118,7 +118,7 @@ def Upload():
             dataJson.append(dataDict)
         print(dataJson)
         return dataJson
-
+@app.after_request
 @app.route('/download/<path:filename>',methods=['GET'])
 @cross_origin(origin='https://icsa2023.netlify.app', allow_headers=['Content-Type', 'Authorization'])
 def download_file(filename):
