@@ -69,7 +69,7 @@ def manifest():
     return jsonify(manifest_content)
 
 @app.route('/upload', methods=['POST'])
-@cross_origin(origin='*', allow_headers=['Content-Type', 'Authorization'])
+@cross_origin(origin='https://icsa2023.netlify.app/*', allow_headers=['Content-Type', 'Authorization'])
 def upload():
      if request.method == 'POST':
         if (request.files):
