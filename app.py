@@ -37,8 +37,9 @@ def add_header(response):
 
 @app.route('/manifest.json', methods=['GET'])
 @cross_origin(origin='*', allow_headers=['Content-Type', 'Authorization'])
-def manifest():
 
+def manifest(response):
+    add_header(response)
     manifest_content = {
   "short_name": "React App",
   "name": "Create React App Sample",
