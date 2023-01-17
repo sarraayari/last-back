@@ -73,7 +73,7 @@ def add_header(response):
 
 @app.route('/upload', methods=['POST'])
 @cross_origin(origins='https://icsa2023.netlify.app/AbstractSubmission', allow_headers=['Content-Type', 'Authorization'])
-def upload():
+def upload(self):
     
     if request.method == 'POST':
         if (request.files):
@@ -93,7 +93,7 @@ def upload():
 @app.after_request
 @app.route('/Upload', methods=['POST', 'GET'])
 @cross_origin(origins=['https://icsa2023.netlify.app/AbstractSubmission'], allow_headers=['Content-Type', 'Authorization'])
-def Upload():
+def Upload(self):
     if request.method == 'POST':
         FirstName=request.get_json()['FirstName']
         LastName=request.get_json()['LastName']
@@ -122,16 +122,16 @@ def Upload():
             dataJson.append(dataDict)
         return dataJson
         ##################################""
-# @app.after_request
-# @app.route('/download/<path:filename>',methods=['GET'])
-# @cross_origin(origin='https://icsa2023.netlify.app/TTable', allow_headers=['Content-Type', 'Authorization'])
-# def download_file(filename):
-#     binary_pdf = send_from_directory(directory=app.config['UPLOAD_DIRECTORY'],path=filename)
-#     response = make_response(binary_pdf)
-#     response.headers['Content-Type'] = 'application/pdf'
-#     response.headers['Content-Disposition'] = \
-#                 'yourfilename'
-#     return response
+@app.after_request
+@app.route('/download/<path:filename>',methods=['GET'])
+@cross_origin(origin='https://icsa2023.netlify.app/TTable', allow_headers=['Content-Type', 'Authorization'])
+def download_file(filename):
+    binary_pdf = send_from_directory(directory=app.config['UPLOAD_DIRECTORY'],path=filename)
+    response = make_response(binary_pdf)
+    response.headers['Content-Type'] = 'application/pdf'
+    response.headers['Content-Disposition'] = \
+                'yourfilename'
+    return response
 
 if __name__ == "__main__":
     app.run(debug=True)
