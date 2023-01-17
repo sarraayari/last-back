@@ -1,14 +1,15 @@
 from flask import Flask,send_from_directory,flash,render_template,request
 from pymongo import MongoClient
-from flask_cors import CORS
-import os 
+from flask_cors import CORS , cross_origin
+import os
 from flask import make_response
 from flask import send_from_directory
 from werkzeug.exceptions import RequestEntityTooLarge
 from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
-CORS(app, origins=["https://icsa2023.netlify.app/"])
+CORS(app,origins={"https://icsa2023.netlify.app/*"})
+# {{"origins" : "https://icsa2023.netlify.app/*"}})
 app.config['UPLOAD_DIRECTORY'] = 'C:\\Users\\sarra\\Junior-Project\\server\\uploads'
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 app.config['SECRET_KEY'] = 'b\x85\xc9\x99\xc3\xb1\x81\x86\x96\xf3t\x91\xbb\rQ\xce\x18$\xd5\xa8\x10w$sR'
@@ -17,14 +18,16 @@ client = MongoClient("mongodb+srv://sarra:1234@cluster0.p6dxnn8.mongodb.net/?ret
 db = client.get_database('Uploads')
 
 @app.route('/')
+@cross_origin()
 def entry_point():
-    
+
     return render_template('home.html')
 
 @app.route('/upload', methods=['POST'])
+@cross_origin()
 def upload():
      if request.method == 'POST':
-        if (request.files): 
+        if (request.files):
             file=request.files['file']
             if file.filename == '':
                 flash('No selected file')
@@ -39,6 +42,7 @@ def upload():
                 return ('error no file detected')
 
 @app.route('/Upload', methods=['POST', 'GET'])
+@cross_origin()
 def Upload():
     if request.method == 'POST':
         FirstName=request.get_json()['FirstName']
@@ -63,13 +67,14 @@ def Upload():
                 '_id': str(id),
                 'FirstName': FirstName,
                 'LastName': LastName,
-                'Email': Email    
+                'Email': Email
             }
             dataJson.append(dataDict)
         print(dataJson)
         return dataJson
 
 @app.route('/download/<path:filename>',methods=['GET'])
+@cross_origin()
 def download_file(filename):
     binary_pdf = send_from_directory(directory=app.config['UPLOAD_DIRECTORY'],path=filename)
     response = make_response(binary_pdf)
