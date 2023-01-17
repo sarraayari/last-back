@@ -16,7 +16,7 @@ app.config['CONTENT_TYPE']='Content-Type'
 app.config['CORS_SUPPORTS_CREDENTIALS']= True
 #app.config['CORS_RESOURCES']= {r"/manifest.json": {"origins":["*","https://icsa2023.netlify.app/", "https://icsa2023-m1ct.onrender.com","https://*.netlify.app"] }}
 
-cors=CORS(app ,  resources={r"/*": {"origins": '*'}},supports_credentials=True)
+cors=CORS(app ,resources={r"*": {"origins": 'https://icsa2023.netlify.app/*'}},supports_credentials=True)
 
 client = MongoClient("mongodb+srv://sarra:1234@cluster0.p6dxnn8.mongodb.net/?retryWrites=true&w=majority")
 db = client.get_database('Uploads')
@@ -31,12 +31,14 @@ def entry_point():
 @cross_origin(origin='*', allow_headers=['Content-Type', 'Authorization'])
 def add_header(response):
     response.headers['Access-Control-Allow-Origin'] = ['52*']
-    response.headers['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE, OPTIONS'
+    response.headers['Access-Control-Allow-Methods'] = 'GET, POST'
     response.headers['Access-Control-Allow-Headers'] = {'access-control-allow-origin': '*'}
     return response
+
+    #############################
 @app.after_request
 @app.route('/manifest.json', methods=['GET'])
-@cross_origin(origin='https://icsa2023.netlify.app/*', allow_headers=['Content-Type', 'Authorization'])
+@cross_origin(origins='https://icsa2023.netlify.app', allow_headers=['Content-Type', 'Authorization'])
 
 def manifest(response):
     add_header(response)
@@ -70,7 +72,7 @@ def manifest(response):
     return (manifest_content)
 
 @app.route('/upload', methods=['POST'])
-@cross_origin(origin='https://icsa2023.netlify.app/', allow_headers=['Content-Type', 'Authorization'])
+@cross_origin(origins='https://icsa2023.netlify.app/AbstractSubmission', allow_headers=['Content-Type', 'Authorization'])
 def upload():
     
     if request.method == 'POST':
@@ -87,9 +89,10 @@ def upload():
                     return  'File too large'
             else:
                 return ('error no file detected')
+                #################################
 @app.after_request
 @app.route('/Upload', methods=['POST', 'GET'])
-@cross_origin(origin='https://icsa2023.netlify.app/*', allow_headers=['Content-Type', 'Authorization'])
+@cross_origin(origins=['https://icsa2023.netlify.app/AbstractSubmission','https://icsa2023.netlify.app/TTable'], allow_headers=['Content-Type', 'Authorization'])
 def Upload():
     if request.method == 'POST':
         FirstName=request.get_json()['FirstName']
@@ -118,9 +121,10 @@ def Upload():
             }
             dataJson.append(dataDict)
         return dataJson
+        ##################################""
 @app.after_request
 @app.route('/download/<path:filename>',methods=['GET'])
-@cross_origin(origin='https://icsa2023.netlify.app', allow_headers=['Content-Type', 'Authorization'])
+@cross_origin(origin='https://icsa2023.netlify.app/TTable', allow_headers=['Content-Type', 'Authorization'])
 def download_file(filename):
     binary_pdf = send_from_directory(directory=app.config['UPLOAD_DIRECTORY'],path=filename)
     response = make_response(binary_pdf)
