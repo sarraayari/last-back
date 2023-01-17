@@ -14,9 +14,9 @@ app.config['SECRET_KEY'] = 'b\x85\xc9\x99\xc3\xb1\x81\x86\x96\xf3t\x91\xbb\rQ\xc
 app.config["MONGO_URI"]="mongodb+srv://sarra:1234@cluster0.p6dxnn8.mongodb.net/?retryWrites=true&w=majority"
 app.config['CONTENT_TYPE']='Content-Type'
 app.config['CORS_SUPPORTS_CREDENTIALS']= True
-app.config['CORS_RESOURCES']= {r"/manifest.json": {"origins":["*","https://icsa2023.netlify.app", "https://icsa2023-m1ct.onrender.com","https://*.netlify.app"] }}
+app.config['CORS_RESOURCES']= {r"/manifest.json": {"origins":["*","https://icsa2023.netlify.app/", "https://icsa2023-m1ct.onrender.com","https://*.netlify.app"] }}
 
-cors=CORS(app , resources={r"https://icsa2023.netlify.app": {"origins":"/*"}},supports_credentials=True)
+cors=CORS(app ,  resources={r"/*": {"origins": "*"}},supports_credentials=True)
 
 client = MongoClient("mongodb+srv://sarra:1234@cluster0.p6dxnn8.mongodb.net/?retryWrites=true&w=majority")
 db = client.get_database('Uploads')
