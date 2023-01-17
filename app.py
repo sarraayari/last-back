@@ -21,19 +21,18 @@ CORS(app, resources={
         "origins":"*"
     }
 })
-app.config['CORS_HEADERS']= 'Content_Type'
 
 client = MongoClient("mongodb+srv://sarra:1234@cluster0.p6dxnn8.mongodb.net/?retryWrites=true&w=majority")
 db = client.get_database('Uploads')
 
 @app.route('/')
-@cross_origin()
+@cross_origin(origin='*', headers=['Content-Type', 'Authorization'])
 def entry_point():
 
     return render_template('home.html')
 
 @app.route('/upload', methods=['POST'])
-@cross_origin()
+@cross_origin(origin='*', headers=['Content-Type', 'Authorization'])
 def upload():
      if request.method == 'POST':
         if (request.files):
@@ -51,7 +50,7 @@ def upload():
                 return ('error no file detected')
 
 @app.route('/Upload', methods=['POST', 'GET'])
-@cross_origin()
+@cross_origin(origin='*', headers=['Content-Type', 'Authorization'])
 def Upload():
     if request.method == 'POST':
         FirstName=request.get_json()['FirstName']
@@ -83,7 +82,7 @@ def Upload():
         return dataJson
 
 @app.route('/download/<path:filename>',methods=['GET'])
-@cross_origin()
+@cross_origin(origin='*', headers=['Content-Type', 'Authorization'])
 def download_file(filename):
     binary_pdf = send_from_directory(directory=app.config['UPLOAD_DIRECTORY'],path=filename)
     response = make_response(binary_pdf)
