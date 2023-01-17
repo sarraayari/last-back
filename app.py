@@ -28,6 +28,7 @@ def entry_point():
     return render_template('home.html')
 
 @app.after_request
+@cross_origin(origin='*', allow_headers=['Content-Type', 'Authorization'])
 def add_header(response):
     response.headers['Access-Control-Allow-Origin'] = '*'
     response.headers['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE, OPTIONS'
@@ -35,7 +36,9 @@ def add_header(response):
     return response
 
 @app.route('/manifest.json')
+@cross_origin(origin='*', allow_headers=['Content-Type', 'Authorization'])
 def manifest():
+
     manifest_content = {
   "short_name": "React App",
   "name": "Create React App Sample",
@@ -66,7 +69,7 @@ def manifest():
     return jsonify(manifest_content)
 
 @app.route('/upload', methods=['POST'])
-#@cross_origin(origin='*', allow_headers=['Content-Type', 'Authorization'])
+@cross_origin(origin='*', allow_headers=['Content-Type', 'Authorization'])
 def upload():
      if request.method == 'POST':
         if (request.files):
