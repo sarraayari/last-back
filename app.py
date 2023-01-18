@@ -85,7 +85,7 @@ def download_file(filename):
     response.headers['Content-Type'] = 'application/pdf'
     response.headers['Content-Disposition'] = \
                 'yourfilename'
-    return os.path(response)
+    return ('response')
 
 if __name__ == "__main__":
     app.run(debug=True)
