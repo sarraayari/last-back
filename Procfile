@@ -1,2 +1,2 @@
 web: gunicorn app:app
-REMAP_SIGTERM=SIGQUIT
+Set REMAP_SIGTERM=SIGQUIT
