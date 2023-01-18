@@ -15,18 +15,13 @@ app.config["MONGO_URI"]="mongodb+srv://sarra:1234@cluster0.p6dxnn8.mongodb.net/?
 app.config['CONTENT_TYPE']='Content-Type'
 app.config['CORS_SUPPORTS_CREDENTIALS']= True
 app.config['CORS_RESOURCES']= {r"/manifest.json": {"origins":"*"}}
-
 cors=CORS(app ,resources={r"*": {"origins": 'https://icsa2023.netlify.app/*'}},supports_credentials=True)
-
 client = MongoClient("mongodb+srv://sarra:1234@cluster0.p6dxnn8.mongodb.net/?retryWrites=true&w=majority")
 db = client.get_database('Uploads')
-
 @app.route('/')
 @cross_origin(origin='*', allow_headers=['Content-Type', 'Authorization'])
 def entry_point():
-
     return render_template('home.html')
-
 @app.after_request
 @cross_origin(origin='https://icsa2023.netlify.app/*', allow_headers=['Content-Type', 'Authorization'])
 def add_header(response):
@@ -36,44 +31,9 @@ def add_header(response):
     return ('response')
 
     #############################
-# @app.after_request
-# @app.route('/manifest.json', methods=['GET'])
-# @cross_origin(origins='*', allow_headers=['Content-Type', 'Authorization'])
-
-# def manifest():
-
-#     manifest_content = {
-#   "short_name": "React App",
-#   "name": "Create React App Sample",
-#   "start_url":"./",
-#   "icons": [
-#     {
-#       "src": "favicon.ico",
-#       "sizes": "64x64 32x32 24x24 16x16",
-#       "type": "image/x-icon"
-#     },
-#     {
-#       "src": "logo192.png",
-#       "type": "image/png",
-#       "sizes": "192x192"
-#     },
-#     {
-#       "src": "logo512.png",
-#       "type": "image/png",
-#       "sizes": "512x512"
-#     }
-#   ],
-#   "homepage": "/index.html",
-#   "display": "standalone",
-#   "theme_color": "#000000",
-#   "background_color": "#ffffff"
-# }
-
-#     return jsonify(manifest_content)
-
 @app.route('/upload', methods=['POST'])
 @cross_origin(origins='https://icsa2023.netlify.app/AbstractSubmission', allow_headers=['Content-Type', 'Authorization'])
-def upload(self):
+def upload():
     
     if request.method == 'POST':
         if (request.files):
@@ -81,19 +41,16 @@ def upload(self):
             if file.filename == '':
                 flash('No selected file')
             if file:
-                try:
-                    filename = secure_filename(file.filename)
-                    file.save(os.path.join(app.config['UPLOAD_DIRECTORY'], filename))
-                    return ({"file":"uploaded"})
-                except RequestEntityTooLarge :
-                    return  'File too large'
-            else:
-                return ('error no file detected')
+                
+                filename = secure_filename(file.filename)
+                file.save(os.path.join(app.config['UPLOAD_DIRECTORY'], filename))
+                return ({"file":"uploaded"})
+                
                 #################################
 @app.after_request
 @app.route('/Upload', methods=['POST', 'GET'])
 @cross_origin(origins=['https://icsa2023.netlify.app/AbstractSubmission'], allow_headers=['Content-Type', 'Authorization'])
-def Upload(self):
+def Upload():
     if request.method == 'POST':
         FirstName=request.get_json()['FirstName']
         LastName=request.get_json()['LastName']
@@ -104,7 +61,6 @@ def Upload(self):
             "Email":Email,
             })
         return ('added to data base')
-
     if request.method == 'GET':
         allData = db['Uploads'].find()
         dataJson = []
@@ -122,16 +78,16 @@ def Upload(self):
             dataJson.append(dataDict)
         return dataJson
         ##################################""
-# @app.after_request
-# @app.route('/download/<path:filename>',methods=['GET'])
-# @cross_origin(origin='https://icsa2023.netlify.app/TTable', allow_headers=['Content-Type', 'Authorization'])
-# def download_file(filename):
-#     binary_pdf = send_from_directory(directory=app.config['UPLOAD_DIRECTORY'],path=filename)
-#     response = make_response(binary_pdf)
-#     response.headers['Content-Type'] = 'application/pdf'
-#     response.headers['Content-Disposition'] = \
-#                 'yourfilename'
-#     return response
+@app.after_request
+@app.route('/download/<path:filename>',methods=['GET'])
+@cross_origin(origin='https://icsa2023.netlify.app/TTable', allow_headers=['Content-Type', 'Authorization'])
+def download_file(filename):
+    binary_pdf = send_from_directory(directory=app.config['UPLOAD_DIRECTORY'],path=filename)
+    response = make_response(binary_pdf)
+    response.headers['Content-Type'] = 'application/pdf'
+    response.headers['Content-Disposition'] = \
+                'yourfilename'
+    return response
 
 if __name__ == "__main__":
     app.run(debug=True)
