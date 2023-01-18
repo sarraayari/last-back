@@ -2,12 +2,12 @@ from flask import Flask,send_file,flash,request,jsonify
 from pymongo import MongoClient
 from flask_cors import CORS , cross_origin
 import os
-from flask import make_response
 from werkzeug.exceptions import RequestEntityTooLarge
 from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
-app.config['UPLOAD_DIRECTORY'] = 'https://last-back-here.onrender.com/public/uploads/'
+app.config['UPLOAD_DIRECTORY'] = 'C:\\Users\\sarra\\Junior-Project\\server\\public\\uploads\\'
+#app.config['UPLOAD_DIRECTORY'] = 'https://last-back-here.onrender.com/public/uploads/'
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 app.config['SECRET_KEY'] = 'b\x85\xc9\x99\xc3\xb1\x81\x86\x96\xf3t\x91\xbb\rQ\xce\x18$\xd5\xa8\x10w$sR'
 app.config["MONGO_URI"]="mongodb+srv://sarra:1234@cluster0.p6dxnn8.mongodb.net/?retryWrites=true&w=majority"
@@ -17,17 +17,20 @@ app.config['CORS_RESOURCES']= {r"/manifest.json": {"origins":"*"}}
 cors=CORS(app ,resources={r"*": {"origins": 'https://icsa2023.netlify.app/*'}},supports_credentials=True)
 client = MongoClient("mongodb+srv://sarra:1234@cluster0.p6dxnn8.mongodb.net/?retryWrites=true&w=majority")
 db = client.get_database('Uploads')
+
 @app.route('/')
 @cross_origin(origin='*', allow_headers=['Content-Type', 'Authorization'])
 def entry_point():
     return ('home.html')#######
 
-# @cross_origin(origin='https://icsa2023.netlify.app/*', allow_headers=['Content-Type', 'Authorization'])
-# def add_header(response):
-#     response.headers['Access-Control-Allow-Origin'] = ['52*']
-#     response.headers['Access-Control-Allow-Methods'] = 'GET, POST'
-#     response.headers['Access-Control-Allow-Headers'] = {'access-control-allow-origin': '*'}
-#     return ('response')
+@cross_origin(origin='https://icsa2023.netlify.app/*', allow_headers=['Content-Type', 'Authorization'])
+def add_header(response):
+    response.headers['Access-Control-Allow-Origin'] = ['52*']
+    response.headers['Access-Control-Allow-Methods'] = 'GET, POST'
+    response.headers['Access-Control-Allow-Headers'] = {'access-control-allow-origin': '*'}
+    return ('response')
+
+
 @app.errorhandler(RequestEntityTooLarge)
 def handle_file_size_exceeded(error):
     return jsonify({"error": "File size exceeded maximum limit of 5MB"}), 400
@@ -43,9 +46,7 @@ def upload():
             if file:
                 filename = secure_filename(file.filename)
                 file.save(os.path.join(app.config['UPLOAD_DIRECTORY'], filename))
-                return ("file uploaded") #########
-                
-                #################################
+                return ('file uploaded') 
 #@app.after_request
 @app.route('/Upload', methods=['POST', 'GET'])
 @cross_origin(origins=['https://icsa2023.netlify.app/AbstractSubmission'], allow_headers=['Content-Type', 'Authorization'])
@@ -75,14 +76,13 @@ def Upload():
                 'Email': Email
             }
             dataJson.append(dataDict)
-        return jsonify(dataJson)  ##############""
-        ##################################""
+        return dataJson
 
 @app.route('/download/<path:filename>',methods=['GET'])
 @cross_origin(origin='https://icsa2023.netlify.app/TTable', allow_headers=['Content-Type', 'Authorization'])
 def download_file(filename):
     filename='saeeaajjjjjjjjjjjjjjjjj.pdf'
-    return (send_file(app.config['UPLOAD_DIRECTORY']+filename,as_attachment=True))############
+    return (send_file(app.config['UPLOAD_DIRECTORY']+filename,as_attachment=True))
 
 if __name__ == "__main__":
     app.run(debug=True)
