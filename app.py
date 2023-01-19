@@ -20,13 +20,13 @@ app.config['CONTENT_TYPE']='Content-Type'
 #     response.headers['Access-Control-Expose-Headers'] = 'Content-Length'
 
 #CORS(app)
-cors=CORS(app ,resources={r"*": {"origins": 'https://last-front.netlify.app./*'}},supports_credentials=True)
+#cors=CORS(app ,resources={r"*": {"origins": 'https://last-front.netlify.app./*'}},supports_credentials=True)
 #cors = CORS(app, resources={r"/*": {"origins": "*"}})
 client = MongoClient("mongodb+srv://sarra:1234@cluster0.p6dxnn8.mongodb.net/?retryWrites=true&w=majority")
 db = client.get_database('Uploads')
 
 @app.route('/')
-# #@cross_origin(origin='*', allow_headers=['Content-Type', 'Authorization'])
+@cross_origin(origin='*', allow_headers=['Content-Type', 'Authorization'])
 def entry_point():
     return ('home.html')#######
 
