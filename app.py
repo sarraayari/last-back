@@ -88,7 +88,7 @@ def Upload():
 
 
 @app.route('/download/<path:filename>',methods=['GET'])
-# @cross_origin(origin='https://last-front.netlify.app/TTable', allow_headers=['Content-Type', 'Authorization'])
+@cross_origin(origin='https://last-front.netlify.app/TTable',methods=['GET'],allow_headers=['Content-Type', 'Authorization'])
 def download_file(filename):
     filename='saeeaajjjjjjjjjjjjjjjjj.pdf'
     #binairy=send_file(app.config['UPLOAD_DIRECTORY']+'/'+filename, as_attachment=True)
