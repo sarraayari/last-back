@@ -22,8 +22,8 @@ app.config['CORS_SUPPORTS_CREDENTIALS']= True ###
 #     response.headers['Access-Control-Max-Age'] = '86400'
 #     response.headers['Access-Control-Expose-Headers'] = 'Content-Length'
 #     return response
-#CORS(app)
-cors=CORS(app ,resources={r"*": {"origins": 'https://last-front.netlify.app./*'}},supports_credentials=True)
+CORS(app)
+#cors=CORS(app ,resources={r"*": {"origins": 'https://last-front.netlify.app./*'}},supports_credentials=True)
 
 client = MongoClient("mongodb+srv://sarra:1234@cluster0.p6dxnn8.mongodb.net/?retryWrites=true&w=majority")
 db = client.get_database('Uploads')
