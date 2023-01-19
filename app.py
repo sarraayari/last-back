@@ -85,7 +85,7 @@ def download_file(filename):
     filename='saeeaajjjjjjjjjjjjjjjjj.pdf'
     
     #file=send_from_directory(directory=app.config['UPLOAD_DIRECTORY'],path=filename)
-    return (send_file(app.config['UPLOAD_DIRECTORY']+'/'+filename, as_attachment=True))
+    return (send_file(app.config['UPLOAD_DIRECTORY']+'/'+filename, as_attachment=True,mimetype='application/pdf'))
 
 
 if __name__ == "__main__":
