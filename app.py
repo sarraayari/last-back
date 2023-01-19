@@ -4,6 +4,8 @@ from flask_cors import CORS , cross_origin
 import os
 from werkzeug.exceptions import RequestEntityTooLarge
 from werkzeug.utils import secure_filename
+import base64
+
 
 app = Flask(__name__)
 #app.config['UPLOAD_DIRECTORY'] = 'C:\\Users\\sarra\\Junior-Project\\server\\public\\uploads\\'
@@ -42,18 +44,19 @@ def entry_point():
 def handle_file_size_exceeded(error):
     return jsonify({"error": "File size exceeded maximum limit of 5MB"}), 400
     #############################
-@app.route('/upload', methods=['multipart/form-data'])
+#@app.route('/upload', methods=['multipart/form-data'])
 #@cross_origin(origins='https://last-front.netlify.app/AbstractSubmission', allow_headers=['Content-Type', 'Authorization'])
-def upload():
-    if request.method == 'multipart/form-data':
-        if (request.files):
-            file=request.files['file']
-            if file.filename == '':
-                flash('No selected file')
-            if file:
-                filename=secure_filename(file.filename)
-                file.save(os.path.join(app.config['UPLOAD_DIRECTORY'],filename))
-                return 'file uploaded'
+# def upload():
+#     if request.method == 'multipart/form-data':
+#         if (request.files):
+# image = request.files['file']  
+# image_string = base64.b64encode(image.read())
+#             if file.filename == '':
+#                 flash('No selected file')
+#             if file:
+#                 filename=secure_filename(file.filename)
+#                 file.save(os.path.join(app.config['UPLOAD_DIRECTORY'],filename))
+#                 return 'file uploaded'
 
 
 @app.route('/Upload', methods=['POST', 'GET'])
@@ -63,10 +66,13 @@ def Upload():
         FirstName=request.get_json()['FirstName']
         LastName=request.get_json()['LastName']
         Email=request.get_json()['Email']
+        image = request.files['file']  
+        image_string = base64.b64encode(image.read())
         db['Uploads'].insert_one({
-            "FirstName": FirstName,
-            "LastName": LastName,
+            "FirstName":FirstName,
+            "LastName":LastName,
             "Email":Email,
+            "File":image_string
             })
         return ('added to data base')
     if request.method == 'GET':
@@ -77,11 +83,13 @@ def Upload():
             FirstName = data['FirstName']
             LastName = data['LastName']
             Email = data['Email']
+            File = data ['file']
             dataDict = {
                 '_id': str(id),
                 'FirstName': FirstName,
                 'LastName': LastName,
-                'Email': Email
+                'Email': Email,
+                'File':image_string
             }
             dataJson.append(dataDict)
         return dataJson
