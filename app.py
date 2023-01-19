@@ -41,23 +41,24 @@ db = client.get_database('Uploads')
 #     return ('response')
 
 
-@app.errorhandler(RequestEntityTooLarge)
-def handle_file_size_exceeded(error):
-    return jsonify({"error": "File size exceeded maximum limit of 5MB"}), 400
-    #############################
-@app.route('/upload', methods=['POST'])
-# @cross_origin(origins='https://last-front.netlify.app/AbstractSubmission', allow_headers=['Content-Type', 'Authorization'])
-def upload():
-    if request.method == 'POST':
-        if (request.files):
-            file=request.files['file']
-            if file.filename == '':
-                flash('No selected file')
-            if file:
-                filename=secure_filename(file.filename)
-                file.save(os.path.join(app.config['UPLOAD_DIRECTORY'],filename))
-                return 'file uploaded'
+# @app.errorhandler(RequestEntityTooLarge)
+# def handle_file_size_exceeded(error):
+#     return jsonify({"error": "File size exceeded maximum limit of 5MB"}), 400
+#     #############################
+# @app.route('/upload', methods=['POST'])
+# # @cross_origin(origins='https://last-front.netlify.app/AbstractSubmission', allow_headers=['Content-Type', 'Authorization'])
+# def upload():
+#     if request.method == 'POST':
+#         if (request.files):
+#             file=request.files['file']
+#             if file.filename == '':
+#                 flash('No selected file')
+#             if file:
+#                 filename=secure_filename(file.filename)
+#                 file.save(os.path.join(app.config['UPLOAD_DIRECTORY'],filename))
+#                 return 'file uploaded'
 
+@app.after_request
 @app.route('/Upload', methods=['POST', 'GET'])
 # @cross_origin(origins=['https://last-front.netlify.app/AbstractSubmission','https://last-front.netlify.app/TTable'], allow_headers=['Content-Type', 'Authorization'])
 def Upload():
