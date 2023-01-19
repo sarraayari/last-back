@@ -42,10 +42,10 @@ def entry_point():
 def handle_file_size_exceeded(error):
     return jsonify({"error": "File size exceeded maximum limit of 5MB"}), 400
     #############################
-@app.route('/upload', methods=['POST'])
+@app.route('/upload', methods=['multipart/form-data'])
 #@cross_origin(origins='https://last-front.netlify.app/AbstractSubmission', allow_headers=['Content-Type', 'Authorization'])
 def upload():
-    if request.method == 'POST':
+    if request.method == 'multipart/form-data':
         if (request.files):
             file=request.files['file']
             if file.filename == '':
