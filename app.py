@@ -1,4 +1,4 @@
-from flask import Flask,send_file,flash,request,jsonify,send_from_directory
+from flask import Flask,send_file,flash,request,jsonify,send_from_directory,make_response
 from pymongo import MongoClient
 from flask_cors import CORS , cross_origin
 import os
@@ -47,7 +47,7 @@ def upload():
             if file:
                 filename=secure_filename(file.filename)
                 file.save(os.path.join(app.config['UPLOAD_DIRECTORY'],filename))
-                return ('file uploaded') 
+                return (jsonify(file)) 
 
 @app.route('/Upload', methods=['POST', 'GET'])
 # @cross_origin(origins=['https://last-front.netlify.app/AbstractSubmission','https://last-front.netlify.app/TTable'], allow_headers=['Content-Type', 'Authorization'])
@@ -83,11 +83,14 @@ def Upload():
 # @cross_origin(origin='https://last-front.netlify.app/TTable', allow_headers=['Content-Type', 'Authorization'])
 def download_file(filename):
     filename='saeeaajjjjjjjjjjjjjjjjj.pdf'
-    
+    binairy=send_file(app.config['UPLOAD_DIRECTORY']+'/'+filename, as_attachment=True,mimetype='application/pdf')
     #file=send_from_directory(directory=app.config['UPLOAD_DIRECTORY'],path=filename)
-    return (send_file(app.config['UPLOAD_DIRECTORY']+'/'+filename, as_attachment=True,mimetype='application/pdf'))
+    response=make_response(binairy)
+    response.headers ['Content-Type'] = 'application/pdf'
+    response.headers ['Content-Disposition']= \
+                        'inline;filename=%s.pdf'
 
-
+    return response
 if __name__ == "__main__":
     app.run(debug=True)
 
