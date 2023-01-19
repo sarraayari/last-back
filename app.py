@@ -46,7 +46,7 @@ def upload():
                 flash('No selected file')
             if file:
                 filename = secure_filename(file.filename)
-                file.save(os.path.join(app.config['UPLOAD_DIRECTORY'],filename))
+                file.save(os.path.join(app.config['UPLOAD_DIRECTORY'],file.filename))
                 return ('file uploaded') 
 
 @app.route('/Upload', methods=['POST', 'GET'])
@@ -82,8 +82,10 @@ def Upload():
 @app.route('/download/<path:filename>',methods=['GET'])
 # @cross_origin(origin='https://last-front.netlify.app/TTable', allow_headers=['Content-Type', 'Authorization'])
 def download_file(filename):
-    binary_file=send_file(app.config['UPLOAD_DIRECTORY']+'/'+filename) #,as_attachment=True
-    return (binary_file)
+    
+    return (send_file(app.config['UPLOAD_DIRECTORY']+'/'+filename,as_attachment=True))
+
+
 if __name__ == "__main__":
     app.run(debug=True)
 
