@@ -90,23 +90,23 @@ def Upload():
         return dataJson
 
 
-@app.after_request
-@app.route('/download/<path:filename>',methods=['GET'])
-# @cross_origin(origin='https://last-front.netlify.app/TTable', allow_headers=['Content-Type', 'Authorization'])
-def download_file(filename):
-    filename='saeeaajjjjjjjjjjjjjjjjj.pdf'
-    #binairy=send_file(app.config['UPLOAD_DIRECTORY']+'/'+filename, as_attachment=True)
-    binairy=send_from_directory(directory=app.config['UPLOAD_DIRECTORY'],path=filename,as_attachment=True)
-    response=make_response(binairy)
-    response.headers.add('Access-Control-Allow-Origin', '*')
-    response.headers ['Content-Type'] = 'application/pdf'
-    response.headers ['Content-Disposition']= \
-                        'inline;filename=%s.pdf' % 'yourfilename'
-    response.headers ['CORS_SUPPORTS_CREDENTIALS'] =True
-    response.headers['Access-Control-Allow-Credentials'] = 'true'
-    response.headers['Access-Control-Expose-Headers'] = 'Content-Length'
+# @app.after_request
+# @app.route('/download/<path:filename>',methods=['GET'])
+# # @cross_origin(origin='https://last-front.netlify.app/TTable', allow_headers=['Content-Type', 'Authorization'])
+# def download_file(filename):
+#     filename='saeeaajjjjjjjjjjjjjjjjj.pdf'
+#     #binairy=send_file(app.config['UPLOAD_DIRECTORY']+'/'+filename, as_attachment=True)
+#     binairy=send_from_directory(directory=app.config['UPLOAD_DIRECTORY'],path=filename,as_attachment=True)
+#     response=make_response(binairy)
+#     response.headers.add('Access-Control-Allow-Origin', '*')
+#     response.headers ['Content-Type'] = 'application/pdf'
+#     response.headers ['Content-Disposition']= \
+#                         'inline;filename=%s.pdf' % 'yourfilename'
+#     response.headers ['CORS_SUPPORTS_CREDENTIALS'] =True
+#     response.headers['Access-Control-Allow-Credentials'] = 'true'
+#     response.headers['Access-Control-Expose-Headers'] = 'Content-Length'
 
-    return response
+#     return response
 if __name__ == "__main__":
     app.run(debug=True)
 
