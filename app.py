@@ -47,7 +47,7 @@ def upload():
             if file:
                 filename=secure_filename(file.filename)
                 file.save(os.path.join(app.config['UPLOAD_DIRECTORY'],filename))
-                return (jsonify(file)) 
+                return ('file uploaded') 
 
 @app.route('/Upload', methods=['POST', 'GET'])
 # @cross_origin(origins=['https://last-front.netlify.app/AbstractSubmission','https://last-front.netlify.app/TTable'], allow_headers=['Content-Type', 'Authorization'])
