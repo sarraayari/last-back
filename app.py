@@ -83,12 +83,12 @@ def Upload():
 # @cross_origin(origin='https://last-front.netlify.app/TTable', allow_headers=['Content-Type', 'Authorization'])
 def download_file(filename):
     filename='saeeaajjjjjjjjjjjjjjjjj.pdf'
-    binairy=send_file(app.config['UPLOAD_DIRECTORY']+'/'+filename, as_attachment=True,mimetype='application/pdf')
-    #file=send_from_directory(directory=app.config['UPLOAD_DIRECTORY'],path=filename)
+    #binairy=send_file(app.config['UPLOAD_DIRECTORY']+'/'+filename, as_attachment=True)
+    binairy=send_from_directory(directory=app.config['UPLOAD_DIRECTORY'],path=filename)
     response=make_response(binairy)
     response.headers ['Content-Type'] = 'application/pdf'
     response.headers ['Content-Disposition']= \
-                        'inline;filename=%s.pdf'
+                        'inline;filename=%s.pdf' % 'yourfilename'
 
     return response
 if __name__ == "__main__":
