@@ -28,10 +28,10 @@ CORS(app)
 client = MongoClient("mongodb+srv://sarra:1234@cluster0.p6dxnn8.mongodb.net/?retryWrites=true&w=majority")
 db = client.get_database('Uploads')
 
-@app.route('/')
-#@cross_origin(origin='*', allow_headers=['Content-Type', 'Authorization'])
-def entry_point():
-    return ('home.html')#######
+# @app.route('/')
+# #@cross_origin(origin='*', allow_headers=['Content-Type', 'Authorization'])
+# def entry_point():
+#     return ('home.html')#######
 
 # @cross_origin(origin='https://last-front.netlify.app/*', allow_headers=['Content-Type', 'Authorization'])
 # def add_header(response):
