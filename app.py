@@ -24,12 +24,12 @@ db = client.get_database('Uploads')
 def entry_point():
     return ('home.html')#######
 
-@cross_origin(origin='https://icsa2023.netlify.app/*', allow_headers=['Content-Type', 'Authorization'])
-def add_header(response):
-    response.headers['Access-Control-Allow-Origin'] = ['52*']
-    response.headers['Access-Control-Allow-Methods'] = 'GET, POST'
-    response.headers['Access-Control-Allow-Headers'] = {'access-control-allow-origin': '*'}
-    return ('response')
+# @cross_origin(origin='https://icsa2023.netlify.app/*', allow_headers=['Content-Type', 'Authorization'])
+# def add_header(response):
+#     response.headers['Access-Control-Allow-Origin'] = ['52*']
+#     response.headers['Access-Control-Allow-Methods'] = 'GET, POST'
+#     response.headers['Access-Control-Allow-Headers'] = {'access-control-allow-origin': '*'}
+#     return ('response')
 
 
 @app.errorhandler(RequestEntityTooLarge)
