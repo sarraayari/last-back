@@ -13,25 +13,25 @@ app.config['SECRET_KEY'] = 'b\x85\xc9\x99\xc3\xb1\x81\x86\x96\xf3t\x91\xbb\rQ\xc
 app.config["MONGO_URI"]="mongodb+srv://sarra:1234@cluster0.p6dxnn8.mongodb.net/?retryWrites=true&w=majority"
 app.config['CONTENT_TYPE']='Content-Type'
 app.config['CORS_SUPPORTS_CREDENTIALS']= True ###
-@app.after_request
-def set_cors_headers(response):
-    response.headers['Access-Control-Allow-Origin'] = '*'
-    response.headers['Access-Control-Allow-Methods'] = 'GET, POST, DELETE'
-    response.headers['Access-Control-Allow-Headers'] = 'Content-Type, Authorization'
-    response.headers['Access-Control-Allow-Credentials'] = 'true'
-    response.headers['Access-Control-Max-Age'] = '86400'
-    response.headers['Access-Control-Expose-Headers'] = 'Content-Length'
-    return response
-CORS(app)
-#cors=CORS(app ,resources={r"*": {"origins": 'https://last-front.netlify.app./*'}},supports_credentials=True)
+# @app.after_request
+# def set_cors_headers(response):
+#     response.headers['Access-Control-Allow-Origin'] = '*'
+#     response.headers['Access-Control-Allow-Methods'] = 'GET, POST, DELETE'
+#     response.headers['Access-Control-Allow-Headers'] = 'Content-Type, Authorization'
+#     response.headers['Access-Control-Allow-Credentials'] = 'true'
+#     response.headers['Access-Control-Max-Age'] = '86400'
+#     response.headers['Access-Control-Expose-Headers'] = 'Content-Length'
+#     return response
+#CORS(app)
+cors=CORS(app ,resources={r"*": {"origins": 'https://last-front.netlify.app./*'}},supports_credentials=True)
 
 client = MongoClient("mongodb+srv://sarra:1234@cluster0.p6dxnn8.mongodb.net/?retryWrites=true&w=majority")
 db = client.get_database('Uploads')
 
-# @app.route('/')
+@app.route('/')
 # #@cross_origin(origin='*', allow_headers=['Content-Type', 'Authorization'])
-# def entry_point():
-#     return ('home.html')#######
+def entry_point():
+    return ('home.html')#######
 
 # @cross_origin(origin='https://last-front.netlify.app/*', allow_headers=['Content-Type', 'Authorization'])
 # def add_header(response):
@@ -41,24 +41,24 @@ db = client.get_database('Uploads')
 #     return ('response')
 
 
-# @app.errorhandler(RequestEntityTooLarge)
-# def handle_file_size_exceeded(error):
-#     return jsonify({"error": "File size exceeded maximum limit of 5MB"}), 400
-#     #############################
-# @app.route('/upload', methods=['POST'])
-# # @cross_origin(origins='https://last-front.netlify.app/AbstractSubmission', allow_headers=['Content-Type', 'Authorization'])
-# def upload():
-#     if request.method == 'POST':
-#         if (request.files):
-#             file=request.files['file']
-#             if file.filename == '':
-#                 flash('No selected file')
-#             if file:
-#                 filename=secure_filename(file.filename)
-#                 file.save(os.path.join(app.config['UPLOAD_DIRECTORY'],filename))
-#                 return 'file uploaded'
+@app.errorhandler(RequestEntityTooLarge)
+def handle_file_size_exceeded(error):
+    return jsonify({"error": "File size exceeded maximum limit of 5MB"}), 400
+    #############################
+@app.route('/upload', methods=['POST'])
+# @cross_origin(origins='https://last-front.netlify.app/AbstractSubmission', allow_headers=['Content-Type', 'Authorization'])
+def upload():
+    if request.method == 'POST':
+        if (request.files):
+            file=request.files['file']
+            if file.filename == '':
+                flash('No selected file')
+            if file:
+                filename=secure_filename(file.filename)
+                file.save(os.path.join(app.config['UPLOAD_DIRECTORY'],filename))
+                return 'file uploaded'
 
-@app.after_request
+
 @app.route('/Upload', methods=['POST', 'GET'])
 # @cross_origin(origins=['https://last-front.netlify.app/AbstractSubmission','https://last-front.netlify.app/TTable'], allow_headers=['Content-Type', 'Authorization'])
 def Upload():
@@ -90,23 +90,22 @@ def Upload():
         return dataJson
 
 
-# @app.after_request
-# @app.route('/download/<path:filename>',methods=['GET'])
-# # @cross_origin(origin='https://last-front.netlify.app/TTable', allow_headers=['Content-Type', 'Authorization'])
-# def download_file(filename):
-#     filename='saeeaajjjjjjjjjjjjjjjjj.pdf'
-#     #binairy=send_file(app.config['UPLOAD_DIRECTORY']+'/'+filename, as_attachment=True)
-#     binairy=send_from_directory(directory=app.config['UPLOAD_DIRECTORY'],path=filename,as_attachment=True)
-#     response=make_response(binairy)
-#     response.headers.add('Access-Control-Allow-Origin', '*')
-#     response.headers ['Content-Type'] = 'application/pdf'
-#     response.headers ['Content-Disposition']= \
-#                         'inline;filename=%s.pdf' % 'yourfilename'
-#     response.headers ['CORS_SUPPORTS_CREDENTIALS'] =True
-#     response.headers['Access-Control-Allow-Credentials'] = 'true'
-#     response.headers['Access-Control-Expose-Headers'] = 'Content-Length'
+@app.route('/download/<path:filename>',methods=['GET'])
+# @cross_origin(origin='https://last-front.netlify.app/TTable', allow_headers=['Content-Type', 'Authorization'])
+def download_file(filename):
+    filename='saeeaajjjjjjjjjjjjjjjjj.pdf'
+    #binairy=send_file(app.config['UPLOAD_DIRECTORY']+'/'+filename, as_attachment=True)
+    binairy=send_from_directory(directory=app.config['UPLOAD_DIRECTORY'],path=filename,as_attachment=True)
+    response=make_response(binairy)
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    response.headers ['Content-Type'] = 'application/pdf'
+    response.headers ['Content-Disposition']= \
+                        'inline;filename=%s.pdf' % 'yourfilename'
+    response.headers ['CORS_SUPPORTS_CREDENTIALS'] =True
+    response.headers['Access-Control-Allow-Credentials'] = 'true'
+    response.headers['Access-Control-Expose-Headers'] = 'Content-Length'
 
-#     return response
+    return response
 if __name__ == "__main__":
     app.run(debug=True)
 
