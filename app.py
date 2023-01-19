@@ -1,4 +1,4 @@
-from flask import Flask,send_file,flash,request,jsonify
+from flask import Flask,send_file,flash,request,jsonify,send_from_directory
 from pymongo import MongoClient
 from flask_cors import CORS , cross_origin
 import os
@@ -46,7 +46,7 @@ def upload():
                 flash('No selected file')
             if file:
                 filename = secure_filename(file.filename)
-                file.save(os.path.join(app.config['UPLOAD_DIRECTORY'],file.filename))
+                file.save(os.path.join(app.config['UPLOAD_DIRECTORY'],filename))
                 return ('file uploaded') 
 
 @app.route('/Upload', methods=['POST', 'GET'])
@@ -83,6 +83,7 @@ def Upload():
 # @cross_origin(origin='https://last-front.netlify.app/TTable', allow_headers=['Content-Type', 'Authorization'])
 def download_file(filename):
     
+    #file=send_from_directory(directory=app.config['UPLOAD_DIRECTORY'],path=filename)
     return (send_file(app.config['UPLOAD_DIRECTORY']+'/'+filename,as_attachment=True))
 
 
