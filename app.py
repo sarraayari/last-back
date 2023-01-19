@@ -45,7 +45,7 @@ def upload():
             if file.filename == '':
                 flash('No selected file')
             if file:
-                filename = secure_filename(file.filename)
+                filename=secure_filename(file.filename)
                 file.save(os.path.join(app.config['UPLOAD_DIRECTORY'],filename))
                 return ('file uploaded') 
 
@@ -85,7 +85,7 @@ def download_file(filename):
     filename='saeeaajjjjjjjjjjjjjjjjj.pdf'
     
     #file=send_from_directory(directory=app.config['UPLOAD_DIRECTORY'],path=filename)
-    return (send_file(app.config['UPLOAD_DIRECTORY']+'/'+filename,as_attachment=True))
+    return (send_file(app.config['UPLOAD_DIRECTORY']+'/'+filename, as_attachment=True))
 
 
 if __name__ == "__main__":
