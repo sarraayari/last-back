@@ -84,7 +84,7 @@ def Upload():
 def download_file(filename):
     
     #file=send_from_directory(directory=app.config['UPLOAD_DIRECTORY'],path=filename)
-    return (send_file(app.config['UPLOAD_DIRECTORY']+'/'+filename,as_attachment=True))
+    return (send_file(app.config['UPLOAD_DIRECTORY']+'/'+filename,as_attachment=True),'download done')
 
 
 if __name__ == "__main__":
