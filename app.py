@@ -43,7 +43,7 @@ def handle_file_size_exceeded(error):
     return jsonify({"error": "File size exceeded maximum limit of 5MB"}), 400
     #############################
 @app.route('/upload', methods=['POST'])
-@cross_origin(origins='https://last-front.netlify.app', allow_headers=['Content-Type', 'Authorization'])
+@cross_origin(origins='https://last-front.netlify.app/AbstractSubmission', allow_headers=['Content-Type', 'Authorization'])
 def upload():
     if request.method == 'POST':
         if (request.files):
@@ -57,7 +57,7 @@ def upload():
 
 
 @app.route('/Upload', methods=['POST', 'GET'])
-@cross_origin(origins=['https://last-front.netlify.app','https://last-front.netlify.app'], allow_headers=['Content-Type', 'Authorization'])
+@cross_origin(origins=['https://last-front.netlify.app/AbstractSubmission','https://last-front.netlify.app/TTable'], allow_headers=['Content-Type', 'Authorization'])
 def Upload():
     if request.method == 'POST':
         FirstName=request.get_json()['FirstName']
@@ -88,7 +88,7 @@ def Upload():
 
 
 @app.route('/download/<path:filename>',methods=['GET'])
-@cross_origin(origin='https://last-front.netlify.app',methods=['GET'],allow_headers=['Content-Type', 'Authorization'])
+@cross_origin(origin='https://last-front.netlify.app/TTable',methods=['GET'],allow_headers=['Content-Type', 'Authorization'])
 def download_file(filename):
     filename='saeeaajjjjjjjjjjjjjjjjj.pdf'
     #binairy=send_file(app.config['UPLOAD_DIRECTORY']+'/'+filename, as_attachment=True)
