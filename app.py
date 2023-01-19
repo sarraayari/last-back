@@ -21,7 +21,7 @@ app.config['CONTENT_TYPE']='Content-Type'
 
 #CORS(app)
 #cors=CORS(app ,resources={r"*": {"origins": 'https://last-front.netlify.app./*'}},supports_credentials=True)
-cors = CORS(app, resources={r"/*": {"origins": "*"}})
+#cors = CORS(app, resources={r"/*": {"origins": "*"}})
 client = MongoClient("mongodb+srv://sarra:1234@cluster0.p6dxnn8.mongodb.net/?retryWrites=true&w=majority")
 db = client.get_database('Uploads')
 
@@ -92,7 +92,7 @@ def Upload():
 def download_file(filename):
     filename='saeeaajjjjjjjjjjjjjjjjj.pdf'
     #binairy=send_file(app.config['UPLOAD_DIRECTORY']+'/'+filename, as_attachment=True)
-    binairy=send_from_directory(directory=app.config['UPLOAD_DIRECTORY'],path=filename,as_attachment=True)
+    binairy=send_from_directory(directory=app.config['UPLOAD_DIRECTORY'],path=filename)
     response=make_response(binairy)
     response.headers.add('Access-Control-Allow-Origin', '*')
     response.headers ['Content-Type'] = 'application/pdf'
