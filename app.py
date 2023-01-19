@@ -13,8 +13,9 @@ app.config['SECRET_KEY'] = 'b\x85\xc9\x99\xc3\xb1\x81\x86\x96\xf3t\x91\xbb\rQ\xc
 app.config["MONGO_URI"]="mongodb+srv://sarra:1234@cluster0.p6dxnn8.mongodb.net/?retryWrites=true&w=majority"
 app.config['CONTENT_TYPE']='Content-Type'
 app.config['CORS_SUPPORTS_CREDENTIALS']= True
-app.config['CORS_RESOURCES']= {r"/manifest.json": {"origins":"*"}}
-cors=CORS(app ,resources={r"*": {"origins": 'https://icsa2023.netlify.app/*'}},supports_credentials=True)
+
+#cors=CORS(app ,resources={r"*": {"origins": 'https://icsa2023.netlify.app/*'}},supports_credentials=True)
+
 client = MongoClient("mongodb+srv://sarra:1234@cluster0.p6dxnn8.mongodb.net/?retryWrites=true&w=majority")
 db = client.get_database('Uploads')
 
@@ -47,9 +48,9 @@ def upload():
                 filename = secure_filename(file.filename)
                 file.save(os.path.join(app.config['UPLOAD_DIRECTORY'], filename))
                 return ('file uploaded') 
-#@app.after_request
+
 @app.route('/Upload', methods=['POST', 'GET'])
-@cross_origin(origins=['https://icsa2023.netlify.app/AbstractSubmission'], allow_headers=['Content-Type', 'Authorization'])
+@cross_origin(origins=['https://icsa2023.netlify.app/AbstractSubmission','https://icsa2023.netlify.app/TTable'], allow_headers=['Content-Type', 'Authorization'])
 def Upload():
     if request.method == 'POST':
         FirstName=request.get_json()['FirstName']
