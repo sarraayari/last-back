@@ -13,15 +13,15 @@ app.config['SECRET_KEY'] = 'b\x85\xc9\x99\xc3\xb1\x81\x86\x96\xf3t\x91\xbb\rQ\xc
 app.config["MONGO_URI"]="mongodb+srv://sarra:1234@cluster0.p6dxnn8.mongodb.net/?retryWrites=true&w=majority"
 app.config['CONTENT_TYPE']='Content-Type'
 app.config['CORS_SUPPORTS_CREDENTIALS']= True ###
-# @app.after_request
-# def set_cors_headers(response):
-#     response.headers['Access-Control-Allow-Origin'] = '*'
-#     response.headers['Access-Control-Allow-Methods'] = 'GET, POST, DELETE'
-#     response.headers['Access-Control-Allow-Headers'] = 'Content-Type, Authorization'
-#     response.headers['Access-Control-Allow-Credentials'] = 'true'
-#     response.headers['Access-Control-Max-Age'] = '86400'
-#     response.headers['Access-Control-Expose-Headers'] = 'Content-Length'
-#     return response
+@app.after_request
+def set_cors_headers(response):
+    response.headers['Access-Control-Allow-Origin'] = '*'
+    response.headers['Access-Control-Allow-Methods'] = 'GET, POST, DELETE'
+    response.headers['Access-Control-Allow-Headers'] = 'Content-Type, Authorization'
+    response.headers['Access-Control-Allow-Credentials'] = 'true'
+    response.headers['Access-Control-Max-Age'] = '86400'
+    response.headers['Access-Control-Expose-Headers'] = 'Content-Length'
+    return response
 CORS(app)
 #cors=CORS(app ,resources={r"*": {"origins": 'https://last-front.netlify.app./*'}},supports_credentials=True)
 
@@ -88,6 +88,8 @@ def Upload():
             dataJson.append(dataDict)
         return dataJson
 
+
+@app.after_request
 @app.route('/download/<path:filename>',methods=['GET'])
 # @cross_origin(origin='https://last-front.netlify.app/TTable', allow_headers=['Content-Type', 'Authorization'])
 def download_file(filename):
