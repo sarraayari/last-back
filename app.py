@@ -66,13 +66,14 @@ def Upload():
         FirstName=request.get_json()['FirstName']
         LastName=request.get_json()['LastName']
         Email=request.get_json()['Email']
-        image = request.files['file']  
-        image_string = base64.b64encode(image.read())
+        File=request.get_json()['file']
+        # image = request.files['file']  
+        # image_string = base64.b64encode(image.read())
         db['Uploads'].insert_one({
             "FirstName":FirstName,
             "LastName":LastName,
             "Email":Email,
-            "File":image_string
+            "file":File
             })
         return ('added to data base')
     if request.method == 'GET':
@@ -89,7 +90,7 @@ def Upload():
                 'FirstName': FirstName,
                 'LastName': LastName,
                 'Email': Email,
-                'File':image_string
+                'File': File
             }
             dataJson.append(dataDict)
         return dataJson
