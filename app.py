@@ -93,7 +93,7 @@ def Upload():
 def download_file(filename):
     filename='saeeaajjjjjjjjjjjjjjjjj.pdf'
     #binairy=send_file(app.config['UPLOAD_DIRECTORY']+'/'+filename, as_attachment=True)
-    binairy=send_from_directory(directory=app.config['UPLOAD_DIRECTORY'],path=filename)
+    binairy=send_from_directory(directory=app.config['UPLOAD_DIRECTORY'],path=filename,as_attachment=True)
     response=make_response(binairy)
     response.headers.add('Access-Control-Allow-Origin', '*')
     response.headers ['Content-Type'] = 'application/pdf'
