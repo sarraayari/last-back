@@ -95,7 +95,7 @@ def Upload():
 def download_file(filename):
  
     #str='https//last-back-here.onrender.com/public/${filename}'
-    return jsonify(send_file(app.config['UPLOAD_DIRECTORY']+'/'+filename, as_attachment=True))
+    return send_file(app.config['UPLOAD_DIRECTORY']+'/'+filename, as_attachment=True)
 
 
 if __name__ == "__main__":
