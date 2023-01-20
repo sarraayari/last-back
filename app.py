@@ -89,11 +89,11 @@ def Upload():
         return dataJson
 
 
-@app.route('/download',methods=['GET'])  #/<path:filename>  
+@app.route('/download/<path:filename>',methods=['GET'])  #/  
 #@cross_origin(origin='https://last-front.netlify.app/TTable',methods=['GET'],allow_headers=['Content-Type', 'Authorization'])
-def download_file():
+def download_file(filename):
  
-    str='https://last-back-here.onrender.com/download/'#+filename filename
+    str='https://last-back-here.onrender.com/download/'+filename 
 
     return str
 
