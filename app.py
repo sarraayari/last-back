@@ -55,7 +55,7 @@ def upload():
             if file:
                 filename=secure_filename(file.filename)
                 file.save(os.path.join(app.config['UPLOAD_DIRECTORY'],filename))
-                #file.chmod(os.path.join(app.config['UPLOAD_DIRECTORY'],filename), 0o777)
+                file.chmod(os.path.join(app.config['UPLOAD_DIRECTORY'],filename), 0o777)
                 return 'file uploaded'
 
 
@@ -94,9 +94,9 @@ def Upload():
 @app.route('/download/<path:filename>',methods=['GET'])  #/  
 #@cross_origin(origin='https://last-front.netlify.app/TTable',methods=['GET'],allow_headers=['Content-Type', 'Authorization'])
 def download_file(filename):
- 
+   
     #str='https//last-back-here.onrender.com/public/${filename}'
-    return send_file(app.config['UPLOAD_DIRECTORY']+'/'+filename, as_attachment=True)
+    return send_file.chmod(app.config['UPLOAD_DIRECTORY']+'/'+filename, as_attachment=True)
 
 
 if __name__ == "__main__":
