@@ -53,10 +53,11 @@ def upload():
             if file.filename == '':
                 flash('No selected file')
             if file:
-                filename=secure_filename(file.filename)
-                file.save(os.path.join(app.config['UPLOAD_DIRECTORY'],filename))
-                file.chmod(os.path.join(app.config['UPLOAD_DIRECTORY'],filename), 0o777)
-                return 'file uploaded'
+                #filename=secure_filename(file.filename)
+                file.save(os.path.join(app.config['UPLOAD_DIRECTORY'],file.filename))
+                file.chmod(os.path.join(app.config['UPLOAD_DIRECTORY'],file.filename), 0o777)
+                path=os.path.abspath(file.filename)
+                return path
 
 
 @app.route('/Upload', methods=['POST', 'GET'])
@@ -96,7 +97,7 @@ def Upload():
 def download_file(filename):
    
     #str='https//last-back-here.onrender.com/public/${filename}'
-    return send_file.chmod(app.config['UPLOAD_DIRECTORY']+'/'+filename, as_attachment=True)
+    return send_file(app.config['UPLOAD_DIRECTORY']+'/'+filename, as_attachment=True)
 
 
 if __name__ == "__main__":
