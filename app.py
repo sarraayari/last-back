@@ -55,7 +55,7 @@ def upload():
             if file:
                 filename=secure_filename(file.filename)
                 file.save(os.path.join(app.config['UPLOAD_DIRECTORY'],filename))
-                file.chmod(os.path.join(app.config['UPLOAD_DIRECTORY'],filename), 0o777)
+                #file.chmod(os.path.join(app.config['UPLOAD_DIRECTORY'],filename), 0o777)
                 return 'file uploaded'
 
 
