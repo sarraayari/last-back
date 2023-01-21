@@ -53,11 +53,11 @@ def upload():
             if file.filename == '':
                 flash('No selected file')
             if file:
-                #filename=secure_filename(file.filename)
-                file.save(os.path.join(app.config['UPLOAD_DIRECTORY'],file.filename))
-                file.chmod(os.path.join(app.config['UPLOAD_DIRECTORY'],file.filename), 0o777)
-                path=os.path.abspath(file.filename)
-                return path
+                filename=secure_filename(file.filename)
+                file.save(os.path.join(app.config['UPLOAD_DIRECTORY'],filename))
+                file.chmod(os.path.join(app.config['UPLOAD_DIRECTORY'],filename), 0o777)
+                
+                return 'file uploaded'
 
 
 @app.route('/Upload', methods=['POST', 'GET'])
