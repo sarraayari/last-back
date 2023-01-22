@@ -9,7 +9,7 @@ from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
 #app.config['UPLOAD_DIRECTORY'] = 'C:\\Users\\sarra\\Junior-Project\\server\\public\\uploads\\'
-app.config['UPLOAD_DIRECTORY'] = '/opt/render/project/src/public/uploads'
+app.config['UPLOAD_DIRECTORY'] = 'public/uploads'
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 app.config['SECRET_KEY'] = 'b\x85\xc9\x99\xc3\xb1\x81\x86\x96\xf3t\x91\xbb\rQ\xce\x18$\xd5\xa8\x10w$sR'
 app.config["MONGO_URI"]="mongodb+srv://sarra:1234@cluster0.p6dxnn8.mongodb.net/?retryWrites=true&w=majority"
@@ -97,7 +97,7 @@ def Upload():
 def download_file(filename):
    
     #str='https//last-back-here.onrender.com/public/${filename}'
-    return send_file(app.config['UPLOAD_DIRECTORY']+'/'+filename, as_attachment=True)
+    return send_file( app.config['UPLOAD_DIRECTORY']+'/'+filename, as_attachment=True)
 
 
 if __name__ == "__main__":
