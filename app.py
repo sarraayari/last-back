@@ -44,7 +44,7 @@ def entry_point():
 def handle_file_size_exceeded(error):
     return jsonify({"error": "File size exceeded maximum limit of 5MB"}), 400
     #############################
-@app.route('/upload', methods=['POST'])  ###methods=['POST']
+@app.route('/upload', methods=['POST'])  
 #@cross_origin(origins='https://last-front.netlify.app/AbstractSubmission', allow_headers=['Content-Type', 'Authorization'])
 def upload():
     if request.method == 'POST':###'POST'
@@ -55,8 +55,6 @@ def upload():
             if file:
                 filename=secure_filename(file.filename)
                 file.save(os.path.join(app.config['UPLOAD_DIRECTORY'],filename))
-                file.chmod(os.path.join(app.config['UPLOAD_DIRECTORY'],filename), 0o777)
-                
                 return 'file uploaded'
 
 
@@ -94,10 +92,8 @@ def Upload():
 
 @app.route('/download/<path:filename>',methods=['GET'])  #/  
 #@cross_origin(origin='https://last-front.netlify.app/TTable',methods=['GET'],allow_headers=['Content-Type', 'Authorization'])
-def download_file(filename):
-   
-    #str='https//last-back-here.onrender.com/public/${filename}'
-    return send_file( app.config['UPLOAD_DIRECTORY']+'/'+filename, as_attachment=True)
+def download_file(id):
+    return send_file( app.config['UPLOAD_DIRECTORY']+'/'+id, as_attachment=True)
 
 
 if __name__ == "__main__":
