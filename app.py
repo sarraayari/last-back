@@ -14,12 +14,6 @@ app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 app.config['SECRET_KEY'] = 'b\x85\xc9\x99\xc3\xb1\x81\x86\x96\xf3t\x91\xbb\rQ\xce\x18$\xd5\xa8\x10w$sR'
 app.config["MONGO_URI"]="mongodb+srv://sarra:1234@cluster0.p6dxnn8.mongodb.net/?retryWrites=true&w=majority"
 app.config['CONTENT_TYPE']='Content-Type'
-# app.config['CORS_SUPPORTS_CREDENTIALS']= True ###
-
-    # response.headers['Access-Control-Allow-Headers'] = 'Content-Type, Authorization'
-    # response.headers['Access-Control-Allow-Credentials'] = 'true'
-
-#     response.headers['Access-Control-Expose-Headers'] = 'Content-Length'
 
 CORS(app)
 #cors=CORS(app ,resources={r"*": {"origins": 'https://last-front.netlify.app./*'}},supports_credentials=True)
@@ -32,12 +26,6 @@ db = client.get_database('Uploads')
 def entry_point():
     return ('home.html')#######
 
-# @cross_origin(origin='https://last-front.netlify.app/*', allow_headers=['Content-Type', 'Authorization'])
-# def add_header(response):
-#    response.headers['Access-Control-Allow-Origin'] = '*'
-#    response.headers['Access-Control-Allow-Methods'] = 'GET, POST, DELETE'
-#     response.headers['Access-Control-Allow-Headers'] = {'access-control-allow-origin': '*'}
-#     return ('response')
 
 
 @app.errorhandler(RequestEntityTooLarge)
@@ -92,8 +80,8 @@ def Upload():
 
 @app.route('/download/<path:filename>',methods=['GET'])  #/  
 #@cross_origin(origin='https://last-front.netlify.app/TTable',methods=['GET'],allow_headers=['Content-Type', 'Authorization'])
-def download_file(id):
-    return send_file( app.config['UPLOAD_DIRECTORY']+'/'+id, as_attachment=True)
+def download_file(filename):
+    return send_file( app.config['UPLOAD_DIRECTORY']+'/'+filename, as_attachment=True)
 
 
 if __name__ == "__main__":
